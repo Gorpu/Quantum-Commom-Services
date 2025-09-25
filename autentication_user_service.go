@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func AutenticationUser(user, encripted_pass string) string {
+func AutenticationUser(encripted_pass string) string {
 	key := "HELIO"
 	keyLen := len(key)
 	keyPos := -1
