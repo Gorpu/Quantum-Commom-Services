@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func AutenticationUser(encripted_pass string) string {
+func AutenticationUser(user, encripted_pass string) string {
 	key := "HELIO"
 	keyLen := len(key)
 	keyPos := -1
@@ -71,7 +71,4 @@ func PasswordDay() string {
 
 	// Retorna como string
 	return fmt.Sprintf("%d", code)
-}
-func main() {
-	fmt.Print(AutenticationUser("87F36FED69"))
 }
