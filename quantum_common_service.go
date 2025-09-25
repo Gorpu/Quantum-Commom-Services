@@ -1,4 +1,4 @@
-package main
+package quantumcommonservices
 
 import (
 	"crypto/md5"
@@ -8,7 +8,10 @@ import (
 	"time"
 )
 
-func AutenticationUser(encripted_pass string) string {
+// a função abaixo deve receber como parametro as credenciais
+// do banco de dados atualmente (25-09-2025) na tabela uccaduser
+// e a coluna é senha
+func DescryptPasswordUser(encripted_pass string) string {
 	key := "HELIO"
 	keyLen := len(key)
 	keyPos := -1
@@ -47,7 +50,11 @@ func AutenticationUser(encripted_pass string) string {
 
 	return dest
 }
-func PasswordDay() string {
+
+// A função abaixo retorna a senha atual
+// diaria, usada para validar a o acesso suporte
+// retorando a senha atual descriptografada
+func PasswordQuantum() string {
 	// Obtém a data atual no formato YYYYMMDD
 	dataStr := time.Now().Format("20060102")
 
