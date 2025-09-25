@@ -1,4 +1,4 @@
-package quantumcommonservice
+package main
 
 import (
 	"crypto/md5"
@@ -8,43 +8,20 @@ import (
 	"time"
 )
 
-func AutenticationUserService(user, src string) string {
-	if user == "100" {
-		// Obtém a data atual no formato YYYYMMDD
-		dataStr := time.Now().Format("20060102")
-
-		// Gera o hash MD5 da string da data
-		hash := md5.Sum([]byte(dataStr))
-		hashHex := hex.EncodeToString(hash[:])
-
-		parteHash := hashHex[:5]
-
-		// Converte de hexadecimal para inteiro
-		code, err := strconv.ParseInt(parteHash, 16, 64)
-		if err != nil {
-			code = 0
-		}
-		if code < 0 {
-			code = -code
-		}
-
-		// Retorna como string
-		return fmt.Sprintf("%d", code)
-	}
-
+func AutenticationUser(encripted_pass string) string {
 	key := "HELIO"
 	keyLen := len(key)
 	keyPos := -1
 	offset := 0
 	dest := ""
-	offsetHex := src[:2]
+	offsetHex := encripted_pass[:2]
 	offset64, _ := strconv.ParseInt(offsetHex, 16, 0)
 	offset = int(offset64)
 
 	srcPos := 2
-	for srcPos < len(src) {
+	for srcPos < len(encripted_pass) {
 		// pega cada byte (2 chars = 1 byte)
-		srcAscHex := src[srcPos : srcPos+2]
+		srcAscHex := encripted_pass[srcPos : srcPos+2]
 		srcAsc64, _ := strconv.ParseInt(srcAscHex, 16, 0)
 		srcAsc := int(srcAsc64)
 
@@ -69,4 +46,32 @@ func AutenticationUserService(user, src string) string {
 	}
 
 	return dest
+}
+func PasswordDay() string {
+	// Obtém a data atual no formato YYYYMMDD
+	dataStr := time.Now().Format("20060102")
+
+	// Gera o hash MD5 da string da data
+	hash := md5.Sum([]byte(dataStr))
+	hashHex := hex.EncodeToString(hash[:])
+
+	// Pega os primeiros 5 caracteres do hash
+	parteHash := hashHex[:5]
+
+	// Converte de hexadecimal para inteiro
+	code, err := strconv.ParseInt(parteHash, 16, 64)
+	if err != nil {
+		code = 0
+	}
+
+	// Se for negativo (não deveria em Go), transforma em positivo
+	if code < 0 {
+		code = -code
+	}
+
+	// Retorna como string
+	return fmt.Sprintf("%d", code)
+}
+func main() {
+	fmt.Print(AutenticationUser("87F36FED69"))
 }
